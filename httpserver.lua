@@ -1,4 +1,5 @@
 local pj = require("pjhammerspoon")
+local appm = require("appmanager")
 local httpstarted = true
 local http = {}
 http.server = hs.httpserver.new()
@@ -59,7 +60,7 @@ http.server:setCallback(function (requestType, path)
 	if splitted[2] == "app" then
 		if splitted[3]~=nil then
 			pj.toast(splitted[3])
-			pj.activateApp(splitted[3])
+			appm.activateApp(splitted[3])
 			return generateHTTPResponse("App launched: "..splitted[3])
 		end
 	elseif splitted[2] == "itunes" then
