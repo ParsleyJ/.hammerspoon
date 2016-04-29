@@ -134,16 +134,19 @@ hs.hotkey.bind(hyper, "9", "Safari URL to music downloader", function()
             pj.toast("Downloading YouTube audio")
             local logfile = "/Users/Giuseppe/Downloads/YouTube/log.txt"
             local envcommand = "export PATH=/opt/local/bin:/opt/local/sbin:/opt/local/bin/python2.7:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Applications/SWI-Prolog.app/Contents/MacOS:/opt/X11/bin:/usr/texbin"
-            local mvcommand = 'mv {} \\"/iTunes/iTunes Media/Automatically Add to iTunes.localized/\\"'
+            local mvcommand = 'mv {} "/iTunes/iTunes Media/Automatically Add to iTunes.localized/"'
             local dlcommand = "/usr/local/bin/youtube-dl -f bestaudio -x --audio-format mp3 --audio-quality 0 -o '/Users/Giuseppe/Downloads/YouTube/%(title)s.%(ext)s'  --exec '"..mvcommand.."' "..theURL.." > "..logfile
             local command = envcommand.." ; "..dlcommand
-            local ok, result = hs.applescript._applescript('do shell script "'..command..'"')
-            if ok then
+            local output, status, typ, rc = hs.execute(command)
+            if status and rc == 0 then
                 pj.toast("Success!")
-                print(result)
+                print(output)
             else
                 pj.toast("Error!")
-                print(result)
+                pj.toast(output)
+                pj.toast(staus)
+                pj.toast(rc)
+                print(output)
                 hs.openConsole()
                 os.execute("open /Users/Giuseppe/Downloads/Youtube/")
             end
